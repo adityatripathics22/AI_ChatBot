@@ -1,4 +1,10 @@
 const messageInput = document.querySelector(".message-input");
+const chatBody = document.querySelector(".chat-body");
+const sendMessageButton = document.querySelector("#send-message");
+
+const userData = {
+    message : null
+}
 
 const createMessageElement = (content , classes) => {
     const div = document.createElement("div");
@@ -7,9 +13,14 @@ const createMessageElement = (content , classes) => {
     return div;
 }
 
+//Handle outgoing user messages
 const handleOutgoingMessage = (userMessage) => {
+    e.preventDefault();
+
+    //Create and Display user message
     const messageContent = `<div class="message-text">${userMessage}</div>`;
     const outgoingMessageDiv = createMessageElement(messageContent, "user-message");
+    chatBody.appendChild(outgoingMessageDiv);
 }
 
 
@@ -18,9 +29,11 @@ messageInput.addEventListener("keydown" , (e) => {
     const userMessage = e.target.value.trim();
 
     if(e.key === "Enter" && userMessage){
-        handleOutgoingMessage(userMessage);
+        handleOutgoingMessage(e);
     }
 })
 
 //trim reomves whitespaces from both sides of string
 //keydown fires before the text is input so the string is not updated and shows the old value
+
+sendMessageButton.addEventListener("click" , (e) => handleOutgoingMessage())
